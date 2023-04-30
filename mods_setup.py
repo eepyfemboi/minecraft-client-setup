@@ -7,10 +7,12 @@ if not os.path.exists(modfolder_path):
     os.makedirs(modfolder_path)
 
 # Setting download link variables
+jdk_download_url = "https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.exe"
 forge_download_url = "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar"
 lambda_download_url = "https://github.com/lambda-client/lambda/releases/download/3.3.0/lambda-3.3.0.jar"
 
 # Setting input variables
+download_jdk = input("Do you want to install JDK? JDK is required to install forge. Please note that installing JDK will require administrator privalges in most cases. If you are not sure what you are doing, please copy/paste this download link into your browser: https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.exe (Y/N): ")
 download_forge = input("Do you want to install forge? (Y/N): ")
 download_lambda = input("Do you want to install lambda? (Y/N): ")
 
@@ -19,15 +21,28 @@ download_lambda = input("Do you want to install lambda? (Y/N): ")
 download_forge_request_2 = "N"
 
 # Setting filenames
+jdk_filename = "jdk-20_windows-x64_bin.exe"
 forge_filename = "forge-1.12.2-14.23.5.2860-installer.jar"
 lambda_filename = "lambda-3.3.0.jar"
+
+# Installing JDK if download_jdk is true
+if download_jdk.upper() == "Y":
+    print("Downloading JDK...")
+    urllib.request.urlretrieve(jdk_download_url, os.path.join(modfolder_path, jdk_filename))
+    print("JDK downloaded\nRunning JDK installer...")
+    os.system(f"start {os.path.join(modfolder_path, jdk_filename)}")
+    input("The JDK installer should start soon\nPress Enter when you have finished installing JDK...")
+elif download_jdk.upper() == "N" and download_forge.upper() == "Y":
+    # Making sure that JDK is installed so that the program doesn't break
+    input("The forge installer will not work unless JDK is installed. If you have not installed JDK yet, please do so now by copy/pasting this link into your browser https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.exe. If you are unsure, please ask a trusted friend for advice.")
+    
 
 # Installing forge if download_forge is true (the .upper() makes sure its in uppercase)
 if download_forge.upper() == "Y":
     print("Downloading forge...")
     urllib.request.urlretrieve(forge_download_url, os.path.join(modfolder_path, forge_filename))
     print("Forge downloaded\nRunning forge installer...")
-    os.system('java -jar ' + os.path.join(modfolder_path, forge_filename))
+    os.system('start java -jar {os.path.join(modfolder_path, forge_filename)}')
     input("The forge installer should start soon\nPress Enter when you have finished installing forge...")
 elif download_forge.upper() == "N":
     download_forge_request_2 = input("These mods will not work unless forge is installed. If you have not already installed forge, please do so now. (Y/N)")
