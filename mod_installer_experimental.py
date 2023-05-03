@@ -6,7 +6,7 @@ modfolder_path = os.path.join(os.getenv('APPDATA'), '.minecraft', 'mods')
 lambda_plugins_path = os.path.join(os.getenv('APPDATA'), '.minecraft', 'lambda', 'plugins')
 if not os.path.exists(modfolder_path):
     os.makedirs(modfolder_path)
-if not os.path.exists(lambda_plugins_path)
+if not os.path.exists(lambda_plugins_path):
     os.makedirs(lambda_plugins_path)
 
 # Setting download link variables
